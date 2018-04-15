@@ -50,20 +50,13 @@ import threading
 import numpy as np
 import tensorflow as tf
 
-tf.app.flags.DEFINE_string('train_directory', '/Users/Mike/Desktop/cnn_fruit/Training',
+tf.app.flags.DEFINE_string('train_directory', '/home/michael/cnn_fruit/Training',
                            'Training data directory')
 
-<<<<<<< HEAD
-tf.app.flags.DEFINE_string('validation_directory', '/Users/Mike/Desktop/cnn_fruit/Validation',
+tf.app.flags.DEFINE_string('validation_directory', '/home/michael/cnn_fruitValidation',
                            'Validation data directory')
 
-tf.app.flags.DEFINE_string('output_directory', '/Users/Mike/Desktop/cnn_fruit',
-=======
-tf.app.flags.DEFINE_string('validation_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit\\Validation',
-                           'Validation data directory')
-
-tf.app.flags.DEFINE_string('output_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit',
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
+tf.app.flags.DEFINE_string('output_directory', '/home/michael/cnn_fruit',
                            'Output data directory')
 
 tf.app.flags.DEFINE_integer('train_shards', 1,
@@ -81,7 +74,7 @@ tf.app.flags.DEFINE_integer('num_threads', 1,
 #   flower
 # where each line corresponds to a label. We map each label contained in
 # the file to an integer corresponding to the line number starting from 0.
-tf.app.flags.DEFINE_string('labels_file', '/Users/Mike/Desktop/cnn_fruit/labels.txt', 'Labels file')
+tf.app.flags.DEFINE_string('labels_file', '/home/michael/cnn_fruit/labels.txt', 'Labels file')
 
 
 FLAGS = tf.app.flags.FLAGS
