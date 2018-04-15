@@ -1,3 +1,4 @@
+
 """Converts image data to TFRecords file format with Example protos.
 The image data set is expected to reside in JPEG files located in the
 following directory structure.
@@ -50,29 +51,34 @@ import threading
 import numpy as np
 import tensorflow as tf
 
-tf.app.flags.DEFINE_string('train_directory', '/Users/Mike/Desktop/cnn_fruit/Training',
+<<<<<<< HEAD
+tf.app.flags.DEFINE_string('train_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/Training',
                            'Training data directory')
 
-<<<<<<< HEAD
-tf.app.flags.DEFINE_string('validation_directory', '/Users/Mike/Desktop/cnn_fruit/Validation',
+
+tf.app.flags.DEFINE_string('validation_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/Validation',
                            'Validation data directory')
 
-tf.app.flags.DEFINE_string('output_directory', '/Users/Mike/Desktop/cnn_fruit',
+tf.app.flags.DEFINE_string('output_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit', 'Output data directory')
 =======
-tf.app.flags.DEFINE_string('validation_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit\\Validation',
+tf.app.flags.DEFINE_string('train_directory', '/home/michael/cnn_fruit/Training',
+                           'Training data directory')
+
+tf.app.flags.DEFINE_string('validation_directory', '/home/michael/cnn_fruit/Validation',
                            'Validation data directory')
 
-tf.app.flags.DEFINE_string('output_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit',
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
+tf.app.flags.DEFINE_string('output_directory', '/home/michael/cnn_fruit',
                            'Output data directory')
+>>>>>>> 0e7c97ab65630c8f218e97fdd96683752df187e9
 
-tf.app.flags.DEFINE_integer('train_shards', 1,
-                            'Number of shards in training TFRecord files.')
-tf.app.flags.DEFINE_integer('validation_shards', 1,
-                            'Number of shards in validation TFRecord files.')
+#tf.app.flags.DEFINE_string('validation_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit\\Validation','Validation data directory')
 
-tf.app.flags.DEFINE_integer('num_threads', 1,
-                            'Number of threads to preprocess the images.')
+#tf.app.flags.DEFINE_string('output_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit','Output data directory')
+
+tf.app.flags.DEFINE_integer('train_shards', 1,'Number of shards in training TFRecord files.')
+tf.app.flags.DEFINE_integer('validation_shards', 1,'Number of shards in validation TFRecord files.')
+
+tf.app.flags.DEFINE_integer('num_threads', 1,'Number of threads to preprocess the images.')
 
 # The labels file contains a list of valid labels are held in this file.
 # Assumes that the file contains entries as such:
@@ -81,11 +87,14 @@ tf.app.flags.DEFINE_integer('num_threads', 1,
 #   flower
 # where each line corresponds to a label. We map each label contained in
 # the file to an integer corresponding to the line number starting from 0.
-tf.app.flags.DEFINE_string('labels_file', '/Users/Mike/Desktop/cnn_fruit/labels.txt', 'Labels file')
+<<<<<<< HEAD
+tf.app.flags.DEFINE_string('labels_file', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/labels.txt', 'Labels file')
 
+=======
+tf.app.flags.DEFINE_string('labels_file', '/home/michael/cnn_fruit/labels.txt', 'Labels file')
+>>>>>>> 0e7c97ab65630c8f218e97fdd96683752df187e9
 
 FLAGS = tf.app.flags.FLAGS
-
 
 
 def _int64_feature(value):
@@ -102,10 +111,6 @@ def _bytes_feature(value):
 
 def _convert_to_example(filename, image_buffer, label, text, height, width):
     """Build an Example proto for an example.
-<<<<<<< HEAD
-=======
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Args:
       filename: string, path to an image file, e.g., '/path/to/example.JPG'
       image_buffer: string, JPEG encoding of RGB image
@@ -159,15 +164,8 @@ class ImageCoder(object):
 
 def _is_png(filename):
     """Determine if a file contains a PNG format image.
-<<<<<<< HEAD
     Args:
       filename: string, path of the image file.
-=======
-
-    Args:
-      filename: string, path of the image file.
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Returns:
       boolean indicating if the image is a PNG.
     """
@@ -176,10 +174,6 @@ def _is_png(filename):
 
 def _process_image(filename, coder):
     """Process a single image file.
-<<<<<<< HEAD
-=======
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Args:
       filename: string, path to an image file e.g., '/path/to/example.JPG'.
       coder: instance of ImageCoder to provide TensorFlow image coding utils.
@@ -212,10 +206,6 @@ def _process_image(filename, coder):
 def _process_image_files_batch(coder, thread_index, ranges, name, filenames,
                                texts, labels, num_shards):
     """Processes and saves list of images as TFRecord in 1 thread.
-<<<<<<< HEAD
-=======
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Args:
       coder: instance of ImageCoder to provide TensorFlow image coding utils.
       thread_index: integer, unique batch to run index is within [0, len(ranges)).
@@ -284,10 +274,6 @@ def _process_image_files_batch(coder, thread_index, ranges, name, filenames,
 
 def _process_image_files(name, filenames, texts, labels, num_shards):
     """Process and save list of images as TFRecord of Example protos.
-<<<<<<< HEAD
-=======
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Args:
       name: string, unique identifier specifying the data set
       filenames: list of strings; each string is a path to an image file
@@ -331,7 +317,6 @@ def _process_image_files(name, filenames, texts, labels, num_shards):
 
 def _find_image_files(data_dir, labels_file):
     """Build a list of all images files and labels in the data set.
-<<<<<<< HEAD
     Args:
       data_dir: string, path to the root directory of images.
         Assumes that the image data set resides in JPEG files located in
@@ -340,22 +325,6 @@ def _find_image_files(data_dir, labels_file):
           data_dir/dog/my-image.jpg
         where 'dog' is the label associated with these images.
       labels_file: string, path to the labels file.
-=======
-
-    Args:
-      data_dir: string, path to the root directory of images.
-
-        Assumes that the image data set resides in JPEG files located in
-        the following directory structure.
-
-          data_dir/dog/another-image.JPEG
-          data_dir/dog/my-image.jpg
-
-        where 'dog' is the label associated with these images.
-
-      labels_file: string, path to the labels file.
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
         The list of valid labels are held in this file. Assumes that the file
         contains entries as such:
           dog
@@ -364,22 +333,15 @@ def _find_image_files(data_dir, labels_file):
         where each line corresponds to a label. We map each label contained in
         the file to an integer starting with the integer 0 corresponding to the
         label contained in the first line.
-<<<<<<< HEAD
-=======
-
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
     Returns:
       filenames: list of strings; each string is a path to an image file.
       texts: list of strings; each string is the class, e.g. 'dog'
       labels: list of integer; each integer identifies the ground truth.
     """
     print('Determining list of input files and labels from %s.' % data_dir)
-    #print(labels_file)
     unique_labels = [l.strip() for l in tf.gfile.FastGFile(
         labels_file, 'r').readlines()]
-    
-    #print(unique_labels)
-    
+
     labels = []
     filenames = []
     texts = []
@@ -389,13 +351,15 @@ def _find_image_files(data_dir, labels_file):
 
     # Construct the list of JPEG files and labels.
 <<<<<<< HEAD
+
     for n, i in enumerate(unique_labels):
         if i == "\ufeffQuince":
             unique_labels[n] = "Quince"
     
     print(unique_labels)
+
 =======
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
+>>>>>>> 0e7c97ab65630c8f218e97fdd96683752df187e9
     for text in unique_labels:
         jpeg_file_path = '%s/%s/*' % (data_dir, text)
         matching_files = tf.gfile.Glob(jpeg_file_path)
@@ -433,10 +397,8 @@ def _process_dataset(name, directory, num_shards, labels_file):
       num_shards: integer number of shards for this data set.
       labels_file: string, path to the labels file.
     """
-    #print(labels_file)
     filenames, texts, labels = _find_image_files(directory, labels_file)
     _process_image_files(name, filenames, texts, labels, num_shards)
-    
 
 
 def main(unused_argv):
@@ -452,13 +414,12 @@ def main(unused_argv):
                      FLAGS.validation_shards, FLAGS.labels_file)
     _process_dataset('train', FLAGS.train_directory,
                      FLAGS.train_shards, FLAGS.labels_file)
-    
-    print("It worked")
 
 
 if __name__ == '__main__':
 <<<<<<< HEAD
-    tf.app.run()
+  tf.app.run()
+
 =======
     tf.app.run()
->>>>>>> a2c6769f823fc77c840d0b7ed7809b387ff16b37
+>>>>>>> 0e7c97ab65630c8f218e97fdd96683752df187e9

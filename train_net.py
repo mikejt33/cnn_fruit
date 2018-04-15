@@ -26,7 +26,7 @@ prediction = tf.nn.softmax(logits)
 
 loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
                                                                         labels=network.Y))
-optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
 train_op = optimizer.minimize(loss=loss_op)
 
 correct_pred = tf.equal(tf.argmax(prediction, 1), network.Y)
