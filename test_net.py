@@ -5,7 +5,8 @@ import os
 
 import network
 
-checkpoint_dir = os.getcwd() + '\\models\\'
+
+checkpoint_dir = os.getcwd() + '/models'
 keep_prob = tf.placeholder(tf.float32)
 
 image_number = 9673
@@ -38,7 +39,7 @@ prediction = tf.nn.softmax(logits)
 
 loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
                                                                         labels=network.Y))
-optimizer = tf.train.AdamOptimizer(learning_rate=network.learning_rate)
+optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
 train_op = optimizer.minimize(loss=loss_op)
 
 correct_pred = tf.equal(tf.argmax(prediction, 1), network.Y)
@@ -56,6 +57,7 @@ with tf.Session() as sess:
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
+ 
     ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
     saver.restore(sess, ckpt.model_checkpoint_path)
 

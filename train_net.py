@@ -8,7 +8,7 @@ import network
 num_steps = 10000
 step = 50
 useCkpt = False
-checkpoint_dir = os.getcwd() + '\\models\\'
+checkpoint_dir = os.getcwd() + '/models'
 keep_prob = tf.placeholder(tf.float32)
 
 
