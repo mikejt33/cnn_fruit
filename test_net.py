@@ -1,10 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr 15 21:56:37 2018
+
+@author: Michael
+"""
+
 import numpy
 import tensorflow as tf
 import numpy as np
 import os
 
 import network
-
 
 checkpoint_dir = os.getcwd() + '/models'
 keep_prob = tf.placeholder(tf.float32)
@@ -39,7 +46,7 @@ prediction = tf.nn.softmax(logits)
 
 loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
                                                                         labels=network.Y))
-optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
+optimizer = tf.train.AdamOptimizer(learning_rate=network.learning_rate)
 train_op = optimizer.minimize(loss=loss_op)
 
 correct_pred = tf.equal(tf.argmax(prediction, 1), network.Y)
@@ -57,7 +64,6 @@ with tf.Session() as sess:
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
 
- 
     ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
     saver.restore(sess, ckpt.model_checkpoint_path)
 
@@ -66,5 +72,3 @@ with tf.Session() as sess:
     coord.request_stop()
     coord.join(threads)
     sess.close()
-
-
