@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-HEIGHT = 200
-WIDTH = 200
+HEIGHT = 100
+WIDTH = 100
 CHANNELS = 3
 
 batch_size = 50
@@ -81,36 +81,38 @@ def conv_net(X, weights, biases, dropout):
     conv4 = conv2d('conv4', conv3, weights['conv_weight4'], biases['conv_bias4'])
     conv4 = maxpool2d('max_pool4', conv4, k=2)
 
-    #conv5 = conv2d('conv5', conv4, weights['conv_weight5'], biases['conv_bias5'])
-    #conv5 = maxpool2d('max_pool5', conv5, k=2)
+    conv5 = conv2d('conv5', conv4, weights['conv_weight5'], biases['conv_bias5'])
+    conv5 = maxpool2d('max_pool5', conv5, k=2)
 
-    fc1 = tf.reshape(conv4, shape=[-1, weights['fcl_weight1'].get_shape().as_list()[0]])
+    fc1 = tf.reshape(conv5, shape=[-1, weights['fcl_weight1'].get_shape().as_list()[0]])
     fc1 = tf.nn.relu(tf.add(tf.matmul(fc1, weights['fcl_weight1']), biases['fcl_bias1']))
     fc1 = tf.nn.dropout(fc1, dropout)
 
-    fc2 = tf.nn.relu(tf.add(tf.matmul(fc1, weights['fcl_weight2']), biases['fcl_bias2']))
-    fc2 = tf.nn.dropout(fc2, dropout)
+    #fc2 = tf.nn.relu(tf.add(tf.matmul(fc1, weights['fcl_weight2']), biases['fcl_bias2']))
+    #fc2 = tf.nn.dropout(fc2, dropout)
 
     #fc3 = tf.nn.relu(tf.add(tf.matmul(fc2, weights['fcl_weight3']), biases['fcl_bias3']))
     #fc3 = tf.nn.dropout(fc3, dropout)
 
-    #out = tf.add(tf.matmul(fc2, weights['out_weight']), biases['out_bias'], name='softmax')
-    #return out
-    labels = tf.cast(labels, tf.int32)
-    cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(
-      labels=labels, logits=logits, name='cross_entropy_per_example')
-    cross_entropy_mean = tf.reduce_mean(cross_entropy, name='cross_entropy')
-    out = tf.add_to_collection('losses', cross_entropy_mean)
+    out = tf.add(tf.matmul(fc1, weights['out_weight']), biases['out_bias'], name='softmax')
     return out
+    # labels = tf.cast(labels, tf.int32)
+    # cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(
+    #   labels=labels, logits=logits, name='cross_entropy_per_example')
+    # cross_entropy_mean = tf.reduce_mean(cross_entropy, name='cross_entropy')
+    # out = tf.add_to_collection('losses', cross_entropy_mean)
+    # return out
 
 
 weights = {
-    'conv_weight1': _variable_with_weight_decay('conv_weight1', [5, 5, 3, 64], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
-    'conv_weight2': _variable_with_weight_decay('conv_weight2', [5, 5, 64, 64], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
-    'conv_weight3': _variable_with_weight_decay('conv_weight3', [5, 5, 128, 128], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
-    'conv_weight4': _variable_with_weight_decay('conv_weight4', [5, 5, 256, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
-    'fcl_weight1': _variable_with_weight_decay('fcl_weight1', [7 * 7 * 256, 2048], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
-    'fcl_weight2': _variable_with_weight_decay('fcl_weight2', [2048, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    'conv_weight1': _variable_with_weight_decay('conv_weight1', [5, 5, 3, 32], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    'conv_weight2': _variable_with_weight_decay('conv_weight2', [5, 5, 32, 64], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    'conv_weight3': _variable_with_weight_decay('conv_weight3', [5, 5, 64, 128], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    'conv_weight4': _variable_with_weight_decay('conv_weight4', [5, 5, 128, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    'conv_weight5': _variable_with_weight_decay('conv_weight5', [5, 5, 256, 512], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+
+    'fcl_weight1': _variable_with_weight_decay('fcl_weight1', [4 * 4 * 512, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
+    #'fcl_weight2': _variable_with_weight_decay('fcl_weight2', [2048, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
     #'fcl_weight3': _variable_with_weight_decay('fcl_weight3', [2048, 256], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
     'out_weight': _variable_with_weight_decay('out_weight', [256, num_classes], tf.truncated_normal_initializer(stddev=5e-2, dtype=tf.float32)),
 }
@@ -120,8 +122,9 @@ biases = {
     'conv_bias2': tf.Variable(tf.zeros([64])),
     'conv_bias3': tf.Variable(tf.zeros([128])),
     'conv_bias4': tf.Variable(tf.zeros([256])),
-    'fcl_bias1': tf.Variable(tf.zeros([2048])),
-    'fcl_bias2': tf.Variable(tf.zeros([256])),
+    'conv_bias5': tf.Variable(tf.zeros([512])),
+    'fcl_bias1': tf.Variable(tf.zeros([256])),
+    #'fcl_bias2': tf.Variable(tf.zeros([256])),
     #'fcl_bias3': tf.Variable(tf.zeros([256])),
     'out_bias': tf.Variable(tf.zeros([num_classes]))
 }
