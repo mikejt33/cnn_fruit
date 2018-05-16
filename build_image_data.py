@@ -51,6 +51,14 @@ import threading
 import numpy as np
 import tensorflow as tf
 
+#tf.app.flags.DEFINE_string('train_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/Training',
+                           'Training data directory')
+
+#tf.app.flags.DEFINE_string('validation_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/Validation',
+                           'Validation data directory')
+
+#tf.app.flags.DEFINE_string('output_directory', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit', 'Output data directory')
+
 tf.app.flags.DEFINE_string('train_directory', '/home/michael/cnn_fruit/Training',
                            'Training data directory')
 
@@ -60,13 +68,15 @@ tf.app.flags.DEFINE_string('validation_directory', '/home/michael/cnn_fruit/Vali
 tf.app.flags.DEFINE_string('output_directory', '/home/michael/cnn_fruit',
                            'Output data directory')
 
-tf.app.flags.DEFINE_integer('train_shards', 1,
-                            'Number of shards in training TFRecord files.')
-tf.app.flags.DEFINE_integer('validation_shards', 1,
-                            'Number of shards in validation TFRecord files.')
 
-tf.app.flags.DEFINE_integer('num_threads', 1,
-                            'Number of threads to preprocess the images.')
+#tf.app.flags.DEFINE_string('validation_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit\\Validation','Validation data directory')
+
+#tf.app.flags.DEFINE_string('output_directory', 'D:\\Users\\Mike\\Desktop\\cnn_fruit','Output data directory')
+
+tf.app.flags.DEFINE_integer('train_shards', 1,'Number of shards in training TFRecord files.')
+tf.app.flags.DEFINE_integer('validation_shards', 1,'Number of shards in validation TFRecord files.')
+
+tf.app.flags.DEFINE_integer('num_threads', 1,'Number of threads to preprocess the images.')
 
 # The labels file contains a list of valid labels are held in this file.
 # Assumes that the file contains entries as such:
@@ -75,7 +85,12 @@ tf.app.flags.DEFINE_integer('num_threads', 1,
 #   flower
 # where each line corresponds to a label. We map each label contained in
 # the file to an integer corresponding to the line number starting from 0.
+
+
+#tf.app.flags.DEFINE_string('labels_file', '/Users/xiaotaichai/Documents/machine_learning/project1/cnn_fruit/labels.txt', 'Labels file')
+
 tf.app.flags.DEFINE_string('labels_file', '/home/michael/cnn_fruit/labels.txt', 'Labels file')
+
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -333,6 +348,14 @@ def _find_image_files(data_dir, labels_file):
     label_index = 1
 
     # Construct the list of JPEG files and labels.
+
+    #for n, i in enumerate(unique_labels):
+      #  if i == "\ufeffQuince":
+     #       unique_labels[n] = "Quince"
+    
+    #print(unique_labels)
+
+
     for text in unique_labels:
         jpeg_file_path = '%s/%s/*' % (data_dir, text)
         matching_files = tf.gfile.Glob(jpeg_file_path)
@@ -391,3 +414,4 @@ def main(unused_argv):
 
 if __name__ == '__main__':
     tf.app.run()
+
