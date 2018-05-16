@@ -10,6 +10,8 @@ import numpy
 import tensorflow as tf
 import numpy as np
 import os
+import timeit
+
 
 import network
 
@@ -55,8 +57,8 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 init = tf.global_variables_initializer()
 
 
-saver = tf.train.Saver()
-
+saver = tf.train.Saver(tf.trainable_variables())
+start = timeit.default_timer()
 with tf.Session() as sess:
     sess.run(init)
     tfrecords_name = 'validation-00000-of-00001'
@@ -72,3 +74,6 @@ with tf.Session() as sess:
     coord.request_stop()
     coord.join(threads)
     sess.close()
+stop = timeit.default_timer()
+
+print (stop - start)
